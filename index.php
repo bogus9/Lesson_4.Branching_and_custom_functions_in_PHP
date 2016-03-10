@@ -5,23 +5,15 @@
 
     $my_name = 'pavel2345';
     
-    if($my_name=='pavel')
-    {
-        if($my_name=='pavel')
-        {
-            if($my_name=='pavel')
-            {
-                echo 'yes'; //1 => TRUE
-            }
-        }
-    }
-    elseif($my_name=='pavel123')
+    if($my_name=='pavel'){
+        echo 'yes';
+    }elseif($my_name=='pavel123'){
         echo 'pavel 123';
-    
-    elseif($my_name=='pavel2345')
+    }
+    elseif($my_name=='pavel2345'){
         echo 'pavel2345';
-    
-    else
+    }
+    else{
         echo 'no'; // 0 => FALSE
-    
+    }
 ?>
