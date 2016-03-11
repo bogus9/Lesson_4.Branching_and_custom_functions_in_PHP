@@ -3,17 +3,17 @@
     error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
     ini_set('display_errors', 1);
 
-    $my_name = 'pavel2345';
+    $my_name = 'pavel';
     
-    if($my_name=='pavel'){
-        echo 'yes';
-    }elseif($my_name=='pavel123'){
-        echo 'pavel 123';
-    }
-    elseif($my_name=='pavel2345'){
-        echo 'pavel2345';
-    }
-    else{
-        echo 'no'; // 0 => FALSE
-    }
+    // $my_name действительно ли равно pavel ?
+    $text = ($my_name=='pavel') ? 'yes':'no'; // скобки просчитывают лоигческую истину 
+// то есть задается вопрос действительно ли в скобках логическая единица, 
+// истинность этого выражения
+// Если оно так, то мы хотим, чтобы в переменную ушло значение yes
+// в другом случае, который разделяется у нас просто : , мы хотим чтобы было no
+    
+    
+    /////text
+    
+    echo $text;
 ?>
