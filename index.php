@@ -170,6 +170,9 @@ $bd=  parse_ini_string($ini_string, true);
     
     $sum=($bear_s[0]*$bear_basket)+($jacket_s[0]*$jacket_basket)+($bicycle_s[0]*$bicycle_basket);
     
+    $bicycle_sum=$bicycle_s[0]*$bicycle_basket;
+    
+    $sum_discount=($bear_s[0]*$bear_basket)+($jacket_s[0]*$jacket_basket)+$bicycle_s[0]*$bicycle_basket;
     
     # =============
     # Секция Скидки
@@ -188,7 +191,11 @@ $bd=  parse_ini_string($ini_string, true);
             . '<tr><td align="right" width="435px" colspan="3">'.'Общее количество товара:'.'</td>'
             . '<td align="center" width="100px">'.$obshee.' шт.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'Общая сумма заказа:'.'</td>'
-            . '<td align="center" width="100px">'.$sum.' руб.'.'</td></tr>';
+            . '<td align="center" width="100px">'.$sum.' руб.'.'</td></tr>'
+            . '<tr><td align="right" width="435px" colspan="3">'.'Ваша скидка:'.'</td>'
+            . '<td align="center" width="100px">'.$sum_discount.' руб.'.'</td></tr>'
+            . '<tr><td align="right" width="435px" colspan="3">'.'К оплате:'.'</td>'
+            . '<td align="center" width="100px">'.$sum_discount.' руб.'.'</td></tr>';
     echo '</table>';
     echo '<hr width="600px">';
     
@@ -228,19 +235,22 @@ $bd=  parse_ini_string($ini_string, true);
     
     
         function discount($bicycle_s, $bicycle_basket) {
-            switch ($bicycle_s) {
+            switch ($bicycle_s && $bicycle_basket) {
                 case ($bicycle_s[1] >= 3 && $bicycle_s[2] >= 3):
                     echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
                     echo '<tr><th colspan="4">'.'Скидки'.'</th></tr>'
                             . '<tr><td colspan="4" width="600px" align="left">'.'Поздравляем! Так как Вы заказали "Игрушка детская - велосипед" в количестве: <b>'.$bicycle_basket.' шт.</b>, Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
                     echo '</table>';
                     echo '<hr width="600px">';
+
                     break;
 
                 default:
+
                     break;
             }
     }
+
 
     
 ?>
