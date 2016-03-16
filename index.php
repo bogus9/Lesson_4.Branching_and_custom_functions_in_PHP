@@ -170,9 +170,6 @@ $bd=  parse_ini_string($ini_string, true);
     
     $sum=($bear_s[0]*$bear_basket)+($jacket_s[0]*$jacket_basket)+($bicycle_s[0]*$bicycle_basket);
     
-    $bicycle_sum=$bicycle_s[0]*$bicycle_basket;
-    
-    $sum_discount=($bear_s[0]*$bear_basket)+($jacket_s[0]*$jacket_basket)+$bicycle_s[0]*$bicycle_basket;
     
     # =============
     # Секция Скидки
@@ -180,6 +177,70 @@ $bd=  parse_ini_string($ini_string, true);
     discount($bicycle_s, $bicycle_basket); // Вызываем Скидки
     
     
+    # ====================================
+    # Высчитываем 30% скидки на велосипеды
+    
+        if ($bicycle_s[1] >= 3 && $bicycle_s[2] >= 3) {
+            $bicycle_30 = $bicycle_s[0]*$bicycle_basket - $bicycle_s[0]*$bicycle_basket*30/100;
+            $discount = $bicycle_s[0]*$bicycle_basket*30/100;
+        }else{
+            $bicycle_30 = $bicycle_s[0]*$bicycle_basket;
+            $discount = 0;
+    }
+    
+    
+//    var_dump($bicycle_30);
+//    var_dump($discount);
+    
+    # =======================================
+    # Высчитываем скидки по дисконтным картам 
+    
+    $diskont_bear = array_slice($bear_s, 3, 1, false);
+    $diskont_jacket = array_slice($jacket_s, 3, 1, false);
+    $diskont_bicycle = array_slice($bicycle_s, 3, 1, false);
+    $diskont_vsego = array_merge($diskont_bear, $diskont_jacket, $diskont_bicycle);
+    
+//    var_dump($diskont_vsego);
+    
+
+    
+        if ($diskont_vsego[0]==='diskont0') {
+            $discount_bear=0;
+        }elseif($diskont_vsego[0]==='diskont1') {
+            $discount_bear=$bear_s[0]*$bear_basket*10/100;
+        }elseif ($diskont_vsego[0]==='diskont2') {
+            $discount_bear=$bear_s[0]*$bear_basket*20/100;
+        }
+        
+        
+        if ($diskont_vsego[1]==='diskont0') {
+            $discount_jacket=0;
+        }elseif($diskont_vsego[1]==='diskont1') {
+            $discount_jacket=$jacket_s[0]*$jacket_basket*10/100;
+        }elseif ($diskont_vsego[1]==='diskont2') {
+            $discount_jacket=$jacket_s[0]*$jacket_basket*20/100;
+        }
+        
+        
+        if ($diskont_vsego[2]==='diskont0') {
+            $discount_bicycle=0;
+        }elseif($diskont_vsego[2]==='diskont1') {
+            $discount_bicycle=$bicycle_s[0]*$bicycle_basket*10/100;
+        }elseif ($diskont_vsego[2]==='diskont2') {
+            $discount_bicycle=$bicycle_s[0]*$bicycle_basket*20/100;
+        }
+        
+
+//        var_dump($discount_bear);
+//        var_dump($discount_jacket);
+//        var_dump($discount_bicycle);
+        
+        
+    $discount_card=$discount_bear+$discount_jacket+$discount_bicycle; // Сумма скидок по скидочным картам
+
+    $discount_sum=$discount+$discount_bear+$discount_jacket+$discount_bicycle; // Общая скидка
+    
+    $sum_discount=(($bear_s[0]*$bear_basket)+($jacket_s[0]*$jacket_basket)+$bicycle_30) - $discount_card; // К оплате
     
     # ============
     # Секция ИТОГО
@@ -193,7 +254,7 @@ $bd=  parse_ini_string($ini_string, true);
             . '<tr><td align="right" width="435px" colspan="3">'.'Общая сумма заказа:'.'</td>'
             . '<td align="center" width="100px">'.$sum.' руб.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'Ваша скидка:'.'</td>'
-            . '<td align="center" width="100px">'.$sum_discount.' руб.'.'</td></tr>'
+            . '<td align="center" width="100px">'.$discount_sum.' руб.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'К оплате:'.'</td>'
             . '<td align="center" width="100px">'.$sum_discount.' руб.'.'</td></tr>';
     echo '</table>';
@@ -235,22 +296,19 @@ $bd=  parse_ini_string($ini_string, true);
     
     
         function discount($bicycle_s, $bicycle_basket) {
-            switch ($bicycle_s && $bicycle_basket) {
+            switch ($bicycle_s) {
                 case ($bicycle_s[1] >= 3 && $bicycle_s[2] >= 3):
                     echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
                     echo '<tr><th colspan="4">'.'Скидки'.'</th></tr>'
-                            . '<tr><td colspan="4" width="600px" align="left">'.'Поздравляем! Так как Вы заказали "Игрушка детская - велосипед" в количестве: <b>'.$bicycle_basket.' шт.</b>, Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
+                            . '<tr><td colspan="4" width="600px" align="left">'.'Поздравляем! Вы заказали "Игрушка детская - велосипед" в количестве: <b>'.$bicycle_basket.' шт.</b>, поэтому Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
                     echo '</table>';
                     echo '<hr width="600px">';
-
                     break;
 
                 default:
-
                     break;
             }
     }
-
 
     
 ?>
