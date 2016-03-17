@@ -528,8 +528,8 @@ $bd=  parse_ini_string($ini_string, true);
      *  ее сразу в echo - все равно не отображается ????
      */
     
-        // Создаем функцию, где выполняется условие, в котором уведомление появляется в том случае, 
-        // когда количество товара на складе меньше количества заказанных товаров
+    // Создаем функцию, где выполняется условие, в котором уведомление появляется в том случае, 
+    // когда количество товара на складе меньше количества заказанных товаров
     function uvedomlenie_z($bear, $jacket, $bicycle) {
         if ($bear[1] > $bear[2] || $jacket[1] > $jacket[2] || $bicycle[1] > $bicycle[2]) {
             echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
@@ -569,21 +569,21 @@ $bd=  parse_ini_string($ini_string, true);
      */
     
     
-        // Создаем функцию, где выполняется условие, в котором скидка на велосипеды появляется в том случае,
-        // когда количество заказанных велосипедов больше или равна 3
-        function discount($bicycle, $bicycle_basket) {
-            switch ($bicycle) {
-                case ($bicycle[1] >= 3 && $bicycle[2] >= 3):
-                    echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
-                    echo '<tr><th colspan="4">'.'Скидки'.'</th></tr>'
-                            . '<tr><td colspan="4" width="600px" align="left">Поздравляем! Вы заказали <b><i>"Игрушка детская - велосипед"</i></b> в количестве: <b>'.$bicycle_basket.' шт.</b>, поэтому Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
-                    echo '</table>';
-                    echo '<hr width="600px">';
-                    break;
+    // Создаем функцию, где выполняется условие, в котором скидка на велосипеды появляется в том случае,
+    // когда количество заказанных велосипедов больше или равна 3
+    function discount($bicycle, $bicycle_basket) {
+        switch ($bicycle) {
+            case ($bicycle[1] >= 3 && $bicycle[2] >= 3):
+                echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
+                echo '<tr><th colspan="4">'.'Скидки'.'</th></tr>'
+                        . '<tr><td colspan="4" width="600px" align="left">Поздравляем! Вы заказали <b><i>"Игрушка детская - велосипед"</i></b> в количестве: <b>'.$bicycle_basket.' шт.</b>, поэтому Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
+                echo '</table>';
+                echo '<hr width="600px">';
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
+        }
     }
 
 ?>
