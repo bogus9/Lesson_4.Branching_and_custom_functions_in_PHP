@@ -139,14 +139,6 @@ $bd=  parse_ini_string($ini_string, true);
     // Вызываем функцию Уведомления, в случае отсутствия товара
     uvedomlenie_z($bear, $jacket, $bicycle);
     
-        
-    # =============
-    # Секция Скидки
-    
-    // Вызываем функцию Скидки
-    discount($bicycle, $bicycle_basket);
-    
-    
     
     # ===========================
     # Всего заказано наименований
@@ -273,7 +265,14 @@ $bd=  parse_ini_string($ini_string, true);
     $sum=($bear[0]*$bear_basket)+($jacket[0]*$jacket_basket)+($bicycle[0]*$bicycle_basket);
     
     
-   
+    # =============
+    # Секция Скидки
+    
+    // Вызываем функцию Скидки
+    discount($bicycle, $bicycle_basket);
+    
+    
+    
     # ====================================
     # Высчитываем 30% скидки на велосипеды
     
