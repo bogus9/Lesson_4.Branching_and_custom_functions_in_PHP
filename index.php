@@ -32,11 +32,11 @@ $bd=  parse_ini_string($ini_string, true);
     # ==========================
     # Содержание:
     # 
-    # Задание 1     стр 43
-    # Задание 2.2   стр 100
-    # Задание 3     стр 245
-    # Задание 2.1   стр 
-    # Задание 2.3   стр 
+    # Задание 1     стр 44
+    # Задание 2.2   стр 127
+    # Задание 3     стр 294
+    # Задание 2.1   стр 489
+    # Задание 2.3   стр 516
     # =========================
     
 
@@ -70,9 +70,9 @@ $bd=  parse_ini_string($ini_string, true);
     // Создаем функцию с глобальной переменной для 
     // заполнения колонки - Наименование товара.
     
-    $globalBear = "Игрушка мягкая - мишка белый";
-    $globalJacket = "Одежда детская - куртка синяя синтепон";
-    $globalBicycle = "Игрушка детская - велосипед";
+    $globalBear = 'Игрушка мягкая - мишка белый';
+    $globalJacket = 'Одежда детская - куртка синяя синтепон';
+    $globalBicycle = 'Игрушка детская - велосипед';
 
     function Bear() {
       global $globalBear;
@@ -341,16 +341,16 @@ $bd=  parse_ini_string($ini_string, true);
     // Ставим условия, при которых будут выполнятся переменные функции
     switch ($diskont_vsego[0])
     {
-      case "diskont0" : $start_function_bear = "discount_bear";
+      case 'diskont0' : $start_function_bear = 'discount_bear';
       break;
-      case "diskont1" : $start_function_bear = "discount_bear_10";
+      case 'diskont1' : $start_function_bear = 'discount_bear_10';
       break;
-      case "diskont2" : $start_function_bear = "discount_bear_20";
+      case 'diskont2' : $start_function_bear = 'discount_bear_20';
       break;
     }
     
 
-    var_dump($start_function_bear);
+//    var_dump($start_function_bear);
     
     
     // Производим те же самые манипуляция с остальными элементами массива $diskont_vsego
@@ -379,16 +379,16 @@ $bd=  parse_ini_string($ini_string, true);
     
     switch ($diskont_vsego[1])
     {
-      case "diskont0" : $start_function_jacket = "discount_jacket";
+      case 'diskont0' : $start_function_jacket = 'discount_jacket';
       break;
-      case "diskont1" : $start_function_jacket = "discount_jacket_10";
+      case 'diskont1' : $start_function_jacket = 'discount_jacket_10';
       break;
-      case "diskont2" : $start_function_jacket = "discount_jacket_20";
+      case 'diskont2' : $start_function_jacket = 'discount_jacket_20';
       break;
     }
     
     
-    var_dump($start_function_jacket);
+//    var_dump($start_function_jacket);
     
     
     
@@ -415,29 +415,29 @@ $bd=  parse_ini_string($ini_string, true);
 
     switch ($diskont_vsego[1])
     {
-      case "diskont0" : $start_function_bicycle = "discount_bicycle";
+      case 'diskont0' : $start_function_bicycle = 'discount_bicycle';
       break;
-      case "diskont1" : $start_function_bicycle = "discount_bicycle_10";
+      case 'diskont1' : $start_function_bicycle = 'discount_bicycle_10';
       break;
-      case "diskont2" : $start_function_bicycle = "discount_bicycle_20";
+      case 'diskont2' : $start_function_bicycle = 'discount_bicycle_20';
       break;
     }
     
     
-    var_dump($start_function_bicycle);
+//    var_dump($start_function_bicycle);
     
     
     
     // Сумма скидок по скидочным картам
     $discount_card=$start_function_bear()+$start_function_jacket()+$start_function_bicycle();
     
-    var_dump($discount_card);
+//    var_dump($discount_card);
 
     
     // Общая скидка на всю покупку, с учетом скидки на велосипеды 30%
     $discount_sum=$discount+$start_function_bear()+$start_function_jacket()+$start_function_bicycle();
     
-    var_dump($discount_sum);
+//    var_dump($discount_sum);
  
     
     // Итого к оплате с учетом скидки
