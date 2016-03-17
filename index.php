@@ -65,6 +65,32 @@ $bd=  parse_ini_string($ini_string, true);
 //    var_dump($jacket);
 //    var_dump($bicycle);
     
+
+    # ============================================
+    // Создаем функцию с глобальной переменной для 
+    // заполнения колонки - Наименование товара.
+    
+    $globalBear = "Игрушка мягкая - мишка белый";
+    $globalJacket = "Одежда детская - куртка синяя синтепон";
+    $globalBicycle = "Игрушка детская - велосипед";
+
+    function Bear() {
+      global $globalBear;
+      return $globalBear;
+    }
+    
+    function Jacket() {
+      global $globalJacket;
+      return $globalJacket;
+    }
+    
+    function Bicycle() {
+      global $globalBicycle;
+      return $globalBicycle;
+    }
+
+
+    
     // Создаем таблицу для вывода исходных данных
     echo '<hr width="600px">';
     
@@ -80,15 +106,15 @@ $bd=  parse_ini_string($ini_string, true);
     echo '<hr width="600px">';
     
     echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black width=600px>';
-            echo '<tr><td align="left" width="200px">'.'Игрушка мягкая - мишка белый:'.'</td>'
+            echo '<tr><td align="left" width="200px">'.Bear().':'.'</td>'
                     . '<td align="center" width="100px">'.$bear[0].' руб.'.'</td>'
                     . '<td align="center" width="100px">'.$bear[1].' шт.'.'</td>'
                     . '<td align="center" width="100px">'.$bear[2].' шт.'.'</td></tr>'
-            . '<tr><td align="left" width="200px">'.'Одежда детская - куртка синяя синтепон:'.'</td>'
+            . '<tr><td align="left" width="200px">'.Jacket().':'.'</td>'
                     . '<td align="center" width="100px">'.$jacket[0].' руб.'.'</td>'
                     . '<td align="center" width="100px">'.$jacket[1].' шт.'.'</td>'
                     . '<td align="center" width="100px">'.$jacket[2].' шт.'.'</td></tr>'
-            . '<tr><td align="left" width="200px">'.'Игрушка детская - велосипед:'.'</td>'
+            . '<tr><td align="left" width="200px">'.Bicycle().':'.'</td>'
                     . '<td align="center" width="100px">'.$bicycle[0].' руб.'.'</td>'
                     . '<td align="center" width="100px">'.$bicycle[1].' шт.'.'</td>'
                     . '<td align="center" width="100px">'.$bicycle[2].' шт.'.'</td></tr>';
@@ -185,7 +211,7 @@ $bd=  parse_ini_string($ini_string, true);
     # Общее количество товара
 
     // Ставим условие, при котором выводим наименьшее значение, 
-    // либо остатки на складе, либо заказанные товары
+    // либо остатков на складе, либо заказанных товаров
     if ($bear[2] < $bear[1]) {
             $bear_basket=$bear[2];
         }else{
@@ -206,29 +232,31 @@ $bd=  parse_ini_string($ini_string, true);
                     $bicycle_basket=$bicycle[1];
             }
     
-    // Общее количество заказанного товара
-    $obshee = $bear_basket+$jacket_basket+$bicycle_basket;
+    // Общее количество заказанного товара в корзине
+    $basket = $bear_basket+$jacket_basket+$bicycle_basket;
     
     
+    # ========================================
     // Создаем функцию со статичной переменной
     
     $a=0;
     
-    function obshee($obshee) {
+    function basket($basket) {
         static $a = 0;
-        $a=$a+$obshee;
+        $a=$a+$basket;
         echo $a.'<br />';
     }
     
     /* Как использовать эту функцию в данном коде я так и не понял. 
-     * Зачем она нужна? Какая ее роль? Я понял как она работает, 
+     * Какая ее роль? Зачем она нужна? Я понял как она работает, 
      * но где и когда это используется, конкретные случаи?
      */
 
-//    obshee($obshee);
+//    basket($basket);
 //    echo $a;
-//    obshee($obshee);
+//    basket($basket);
 //    echo $a;
+    
     
     
     # ===========================
@@ -286,48 +314,174 @@ $bd=  parse_ini_string($ini_string, true);
 //    var_dump($diskont_vsego);
     
 
-        // Ставим условие, при котором определяем, какая скидка будет предоставлена,
-        // исходя из генерируемой скидочной карты
+    // Просчет скидок в процентах
+    $discount_bear=0;
+    $discount_bear_10=$bear[0]*$bear_basket*10/100;
+    $discount_bear_20=$bear[0]*$bear_basket*20/100;
     
-        if ($diskont_vsego[0]==='diskont0') {
-            $discount_bear=0;
-        }elseif($diskont_vsego[0]==='diskont1') {
-            $discount_bear=$bear[0]*$bear_basket*10/100;
-        }elseif ($diskont_vsego[0]==='diskont2') {
-            $discount_bear=$bear[0]*$bear_basket*20/100;
-        }
-        
-        
-        if ($diskont_vsego[1]==='diskont0') {
-            $discount_jacket=0;
-        }elseif($diskont_vsego[1]==='diskont1') {
-            $discount_jacket=$jacket[0]*$jacket_basket*10/100;
-        }elseif ($diskont_vsego[1]==='diskont2') {
-            $discount_jacket=$jacket[0]*$jacket_basket*20/100;
-        }
-        
-        
-        if ($diskont_vsego[2]==='diskont0') {
-            $discount_bicycle=0;
-        }elseif($diskont_vsego[2]==='diskont1') {
-            $discount_bicycle=$bicycle[0]*$bicycle_basket*10/100;
-        }elseif ($diskont_vsego[2]==='diskont2') {
-            $discount_bicycle=$bicycle[0]*$bicycle_basket*20/100;
-        }
-        
+    
+    // Создаем конструкцию из перменных функций для вывода необходимой скидки
+    // в зависимости от сгенерированной скидочной карты
+    function discount_bear() {
+        global $discount_bear;
+        return $discount_bear;
+    }
 
-//        var_dump($discount_bear);
-//        var_dump($discount_jacket);
-//        var_dump($discount_bicycle);
-        
+    function discount_bear_10() {
+         global $discount_bear_10;
+         return $discount_bear_10;
+    }
+
+    function discount_bear_20() {
+         global $discount_bear_20;
+         return $discount_bear_20;
+    }
+
+    
+    // Ставим условия, при которых будут выполнятся переменные функции
+    switch ($diskont_vsego[0])
+    {
+      case "diskont0" : $start_function_bear = "discount_bear";
+      break;
+      case "diskont1" : $start_function_bear = "discount_bear_10";
+      break;
+      case "diskont2" : $start_function_bear = "discount_bear_20";
+      break;
+    }
+    
+
+    var_dump($start_function_bear);
+    
+    
+    // Производим те же самые манипуляция с остальными элементами массива $diskont_vsego
+    
+
+    $discount_jacket=0;
+    $discount_jacket_10=$jacket[0]*$jacket_basket*10/100;
+    $discount_jacket_20=$jacket[0]*$jacket_basket*20/100;
+    
+
+    function discount_jacket() {
+        global $discount_jacket;
+        return $discount_jacket;
+    }
+
+    function discount_jacket_10() {
+         global $discount_jacket_10;
+         return $discount_jacket_10;
+    }
+
+    function discount_jacket_20() {
+         global $discount_jacket_20;
+         return $discount_jacket_20;
+    }
+
+    
+    switch ($diskont_vsego[1])
+    {
+      case "diskont0" : $start_function_jacket = "discount_jacket";
+      break;
+      case "diskont1" : $start_function_jacket = "discount_jacket_10";
+      break;
+      case "diskont2" : $start_function_jacket = "discount_jacket_20";
+      break;
+    }
+    
+    
+    var_dump($start_function_jacket);
+    
+    
+    
+    $discount_bicycle=0;
+    $discount_bicycle_10=$bicycle[0]*$bicycle_basket*10/100;
+    $discount_bicycle_20=$bicycle[0]*$bicycle_basket*20/100;
+    
+
+    function discount_bicycle() {
+        global $discount_bicycle;
+        return $discount_bicycle;
+    }
+
+    function discount_bicycle_10() {
+         global $discount_bicycle_10;
+         return $discount_bicycle_10;
+    }
+
+    function discount_bicycle_20() {
+         global $discount_bicycle_20;
+         return $discount_bicycle_20;
+    }
+
+
+    switch ($diskont_vsego[1])
+    {
+      case "diskont0" : $start_function_bicycle = "discount_bicycle";
+      break;
+      case "diskont1" : $start_function_bicycle = "discount_bicycle_10";
+      break;
+      case "diskont2" : $start_function_bicycle = "discount_bicycle_20";
+      break;
+    }
+    
+    
+    var_dump($start_function_bicycle);
+    
+    
+    
     // Сумма скидок по скидочным картам
-    $discount_card=$discount_bear+$discount_jacket+$discount_bicycle;
+    $discount_card=$start_function_bear()+$start_function_jacket()+$start_function_bicycle();
+    
+    var_dump($discount_card);
 
+    
     // Общая скидка на всю покупку, с учетом скидки на велосипеды 30%
-    $discount_sum=$discount+$discount_bear+$discount_jacket+$discount_bicycle;
+    $discount_sum=$discount+$start_function_bear()+$start_function_jacket()+$start_function_bicycle();
+    
+    var_dump($discount_sum);
+ 
     
     // Итого к оплате с учетом скидки
     $sum_discount=(($bear[0]*$bear_basket)+($jacket[0]*$jacket_basket)+$bicycle_30) - $discount_card;
+    
+    
+    
+//        // Ставим условие, при котором определяем, какая скидка будет предоставлена,
+//        // исходя из генерируемой скидочной карты
+//
+//        if ($diskont_vsego[0]==='diskont0') {
+//            $discount_bear=0;
+//        }elseif($diskont_vsego[0]==='diskont1') {
+//            $discount_bear=$bear[0]*$bear_basket*10/100;
+//        }elseif ($diskont_vsego[0]==='diskont2') {
+//            $discount_bear=$bear[0]*$bear_basket*20/100;
+//        }
+//        
+//        if ($diskont_vsego[1]==='diskont0') {
+//            $discount_jacket=0;
+//        }elseif($diskont_vsego[1]==='diskont1') {
+//            $discount_jacket=$jacket[0]*$jacket_basket*10/100;
+//        }elseif ($diskont_vsego[1]==='diskont2') {
+//            $discount_jacket=$jacket[0]*$jacket_basket*20/100;
+//        }
+//        
+//        if ($diskont_vsego[2]==='diskont0') {
+//            $discount_bicycle=0;
+//        }elseif($diskont_vsego[2]==='diskont1') {
+//            $discount_bicycle=$bicycle[0]*$bicycle_basket*10/100;
+//        }elseif ($diskont_vsego[2]==='diskont2') {
+//            $discount_bicycle=$bicycle[0]*$bicycle_basket*20/100;
+//        }
+//        
+//        var_dump($discount_bear);
+//        var_dump($discount_jacket);
+//        var_dump($discount_bicycle);
+//        
+//        // Сумма скидок по скидочным картам
+//        $discount_card=$discount_bear+$discount_jacket+$discount_bicycle;
+//        
+//        // Общая скидка на всю покупку, с учетом скидки на велосипеды 30%
+//        $discount_sum=$discount+$discount_bear+$discount_jacket+$discount_bicycle;
+ 
     
     
     
@@ -346,7 +500,7 @@ $bd=  parse_ini_string($ini_string, true);
             .'<tr><td align="right" width="435px" colspan="3">'.'Всего заказано наименований:'.'</td>'
             . '<td align="center" width="100px">'.$names_result.' ед.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'Общее количество товара:'.'</td>'
-            . '<td align="center" width="100px">'.$obshee.' шт.'.'</td></tr>'
+            . '<td align="center" width="100px">'.$basket.' шт.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'Общая сумма заказа:'.'</td>'
             . '<td align="center" width="100px">'.$sum.' руб.'.'</td></tr>'
             . '<tr><td align="right" width="435px" colspan="3">'.'Ваша скидка:'.'</td>'
@@ -363,9 +517,20 @@ $bd=  parse_ini_string($ini_string, true);
     # =========================
     # Делаем секцию Уведомления
     
+    $globalName = 'Игрушка мягкая - мишка белый';
+    
+    /*??? Здесь хотел создать еще одну функцию с глобальной переменной, в которую указал наименование товара со скидкой,
+     * после чего когда вставлял функцию в echo внутри функции discount,  на выходе в данной секции глобальная 
+     * переменная не отоброжалась, хотя var_dump нормально выводил функцию discount вместе с этой переменной. 
+     * Независимо от того указываю ли я в этой функции эту переменную как глобальную или нет. ???
+     * 
+     *  ??? Также пробовал просто указывать в функции discount глобальную переменную и определять
+     *  ее сразу в echo - все равно не отображается ????
+     */
+    
         // Создаем функцию, где выполняется условие, в котором уведомление появляется в том случае, 
         // когда количество товара на складе меньше количества заказанных товаров
-        function uvedomlenie_z($bear, $jacket, $bicycle) {
+    function uvedomlenie_z($bear, $jacket, $bicycle) {
         if ($bear[1] > $bear[2] || $jacket[1] > $jacket[2] || $bicycle[1] > $bicycle[2]) {
             echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
             echo '<tr><th colspan="4">'.'Уведомления'.'</th></tr>';
@@ -393,6 +558,16 @@ $bd=  parse_ini_string($ini_string, true);
     
     # ===========================
     # Делаем секцию Скидки
+  
+    /*??? Здесь хотел создать еще одну функцию с глобальной переменной, в которую указал наименование товара со скидкой,
+     * после чего когда вставлял функцию в echo внутри функции discount,  на выходе в данной секции глобальная 
+     * переменная не отоброжалась, хотя var_dump нормально выводил функцию discount вместе с этой переменной. 
+     * Независимо от того указываю ли я в этой функции эту переменную как глобальную или нет. ???
+     * 
+     *  ??? Также пробовал просто указывать в функции discount глобальную переменную и определять
+     *  ее сразу в echo - все равно не отображается ????
+     */
+    
     
         // Создаем функцию, где выполняется условие, в котором скидка на велосипеды появляется в том случае,
         // когда количество заказанных велосипедов больше или равна 3
@@ -401,7 +576,7 @@ $bd=  parse_ini_string($ini_string, true);
                 case ($bicycle[1] >= 3 && $bicycle[2] >= 3):
                     echo '<table align=center border=0 cellpadding=10 cellspacing=0 bordercolor=black>';
                     echo '<tr><th colspan="4">'.'Скидки'.'</th></tr>'
-                            . '<tr><td colspan="4" width="600px" align="left">'.'Поздравляем! Вы заказали "Игрушка детская - велосипед" в количестве: <b>'.$bicycle_basket.' шт.</b>, поэтому Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
+                            . '<tr><td colspan="4" width="600px" align="left">Поздравляем! Вы заказали <b><i>"Игрушка детская - велосипед"</i></b> в количестве: <b>'.$bicycle_basket.' шт.</b>, поэтому Вам предоставляется скидка на велосипеды в размере - <b>30%</b>!</td></tr>';
                     echo '</table>';
                     echo '<hr width="600px">';
                     break;
@@ -411,5 +586,4 @@ $bd=  parse_ini_string($ini_string, true);
             }
     }
 
-    
 ?>
